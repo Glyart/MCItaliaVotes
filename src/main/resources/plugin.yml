@@ -1,0 +1,12 @@
+name: MCItaliaVotes
+author: xQuickGlare
+version: ${project.version}
+main: com.glyart.mcitaliavotes.MCItaliaVotesPlugin
+api-version: 1.15
+commands: 
+  mcitaliavotes:
+    description: Comando principale del plugin
+    aliases: [mcitavotes, miv]
+  reward:
+    description: Questo comando ti farà ottenere i rewards
+    aliases: [rewards]

@@ -1,0 +1,12 @@
+serverName: NO-SERVER
+
+dailyRewards:
+  10: # Reward che si va ad ottenere solo se il server ha raggiunto minimo 10 voti nel giorno precedente
+    - 'console-cmd: say %player ciao'
+    - 'message: &6Ciao, come stai?'
+  20: # Reward che si va ad ottenere solo se il server ha raggiunto minimo 20 voti nel giorno precedente
+    - 'player-cmd: me %player sono io'
+    - 'message: &6Ciao'
+  100: # Reward che si va ad ottenere solo se il server ha raggiunto minimo 100 voti nel giorno precedente
+    - 'console-cmd: give %player diamond 1'
+    - 'message: &6Hai ricevuto 100 diamanti'
