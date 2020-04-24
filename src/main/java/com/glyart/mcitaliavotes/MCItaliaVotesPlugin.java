@@ -5,6 +5,7 @@ import com.glyart.mcitaliavotes.commands.RewardCommand;
 import com.glyart.mcitaliavotes.managers.VotesManager;
 import com.glyart.mcitaliavotes.utils.YAMLConfiguration;
 import lombok.Getter;
+import org.bstats.bukkit.Metrics;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public class MCItaliaVotesPlugin extends JavaPlugin {
@@ -16,6 +17,8 @@ public class MCItaliaVotesPlugin extends JavaPlugin {
     
     @Getter private VotesManager votesManager;
     
+    @Getter private Metrics metrics;
+    
     @Override
     public void onEnable() {
         instance = this;
@@ -26,6 +29,8 @@ public class MCItaliaVotesPlugin extends JavaPlugin {
         registerInstances();
         registerCommands();
     
+        metrics = new Metrics(this, 7309);
+        
         getLogger().info("Plugin avviato in " + (System.currentTimeMillis()-time) + "ms");
         getLogger().info("Plugin creato da xQuickGlare (https://t.me/xQuickGlare)");
         getLogger().info("Download disponibile su: https://github.com/Glyart/MCItaliaVotes");

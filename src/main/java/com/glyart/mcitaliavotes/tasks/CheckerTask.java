@@ -3,7 +3,7 @@ package com.glyart.mcitaliavotes.tasks;
 import com.glyart.mcitaliavotes.MCItaliaVotesPlugin;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
-import org.bukkit.craftbukkit.libs.org.apache.commons.io.IOUtils;
+import org.apache.commons.io.IOUtils;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.io.IOException;
