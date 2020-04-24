@@ -65,7 +65,7 @@ public class VotesManager {
     public void updateVotes(int votes) {
         if (monthlyVotes == -1) 
             dailyVotes = 0;
-        else if (monthlyVotes < votes)
+        else if (votes < monthlyVotes)
             dailyVotes = votes;
         else
             dailyVotes = votes - monthlyVotes;
