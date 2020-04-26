@@ -3,7 +3,9 @@ package com.glyart.mcitaliavotes;
 import com.glyart.mcitaliavotes.commands.MainCommand;
 import com.glyart.mcitaliavotes.commands.RewardCommand;
 import com.glyart.mcitaliavotes.managers.VotesManager;
+import com.glyart.mcitaliavotes.tasks.VersionCheckTask;
 import com.glyart.mcitaliavotes.utils.YAMLConfiguration;
+import com.google.gson.Gson;
 import lombok.Getter;
 import org.bstats.bukkit.Metrics;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -11,6 +13,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 public class MCItaliaVotesPlugin extends JavaPlugin {
 
     @Getter private static MCItaliaVotesPlugin instance;
+    @Getter private final Gson gson = new Gson();
     
     @Getter private YAMLConfiguration configuration;
     @Getter private YAMLConfiguration dataConfig;
@@ -28,6 +31,7 @@ public class MCItaliaVotesPlugin extends JavaPlugin {
         registerConfigs();
         registerInstances();
         registerCommands();
+        registerTasks();
     
         metrics = new Metrics(this, 7309);
         
@@ -54,6 +58,10 @@ public class MCItaliaVotesPlugin extends JavaPlugin {
     private void registerCommands() {
         getCommand("mcitaliavotes").setExecutor(new MainCommand());
         getCommand("reward").setExecutor(new RewardCommand());
+    }
+    
+    private void registerTasks() {
+        new VersionCheckTask().runTaskTimerAsynchronously(this, 0, 20*60*60);
     }
     
 }

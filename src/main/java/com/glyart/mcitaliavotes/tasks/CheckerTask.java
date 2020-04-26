@@ -1,14 +1,11 @@
 package com.glyart.mcitaliavotes.tasks;
 
 import com.glyart.mcitaliavotes.MCItaliaVotesPlugin;
-import com.google.gson.Gson;
+import com.glyart.mcitaliavotes.utils.WebUtil;
 import com.google.gson.JsonObject;
-import org.apache.commons.io.IOUtils;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.io.IOException;
-import java.net.URL;
-import java.nio.charset.Charset;
 import java.util.Calendar;
 import java.util.TimeZone;
 import java.util.concurrent.TimeUnit;
@@ -17,7 +14,6 @@ import java.util.logging.Level;
 public class CheckerTask extends BukkitRunnable {
 
     private final MCItaliaVotesPlugin plugin = MCItaliaVotesPlugin.getInstance();
-    private final Gson gson = new Gson();
     
     public void run() {
         if (plugin.getVotesManager().getServerName().equalsIgnoreCase("NO-SERVER"))
@@ -27,13 +23,11 @@ public class CheckerTask extends BukkitRunnable {
             return;
 
         try {
-            URL url = new URL(String.format("https://www.minecraft-italia.it/api/server/item/%s", plugin.getVotesManager().getServerName()));
-            String data = IOUtils.readLines(url.openStream(), Charset.defaultCharset()).get(0);
-            JsonObject json = gson.fromJson(data, JsonObject.class);
+            JsonObject json = WebUtil.getJsonData(String.format("https://www.minecraft-italia.it/api/server/item/%s", plugin.getVotesManager().getServerName())).getAsJsonObject();
             
             if (!json.get("status").getAsString().equalsIgnoreCase("success")) {
                 plugin.getLogger().warning("Si è verificato un errore durante l'aggiornamento dei voti");
-                plugin.getLogger().warning(data);
+                plugin.getLogger().warning(json.toString());
                 return;
             }
             
