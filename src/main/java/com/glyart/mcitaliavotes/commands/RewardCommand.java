@@ -28,7 +28,14 @@ public class RewardCommand implements CommandExecutor {
             return true;
         }
         
-        reward.executeReward((Player) sender);
+        Player player = (Player) sender;
+        if (plugin.getVotesManager().getPlayers().contains(player.getUniqueId())) {
+            sender.sendMessage(ChatColor.GREEN + "MCItaliaVotes » " + ChatColor.RED + " Hai già preso il reward di oggi");
+            return true;
+        }
+        
+        reward.executeReward(player);
+        plugin.getVotesManager().getPlayers().add(player.getUniqueId());
         return true;
     }
     

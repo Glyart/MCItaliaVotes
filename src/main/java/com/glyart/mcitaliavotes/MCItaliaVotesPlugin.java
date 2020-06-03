@@ -3,6 +3,8 @@ package com.glyart.mcitaliavotes;
 import com.glyart.mcitaliavotes.commands.MainCommand;
 import com.glyart.mcitaliavotes.commands.RewardCommand;
 import com.glyart.mcitaliavotes.managers.VotesManager;
+import com.glyart.mcitaliavotes.tasks.CheckerTask;
+import com.glyart.mcitaliavotes.tasks.PlayerSaveTask;
 import com.glyart.mcitaliavotes.tasks.VersionCheckTask;
 import com.glyart.mcitaliavotes.utils.YAMLConfiguration;
 import com.google.gson.Gson;
@@ -62,6 +64,8 @@ public class MCItaliaVotesPlugin extends JavaPlugin {
     
     private void registerTasks() {
         new VersionCheckTask().runTaskTimerAsynchronously(this, 0, 20*60*60);
+        new CheckerTask().runTaskTimerAsynchronously(this, 0, 20*60*15);
+        new PlayerSaveTask().runTaskTimerAsynchronously(this, 20*60*5, 20*60*5);
     }
     
 }

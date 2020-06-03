@@ -2,19 +2,22 @@ package com.glyart.mcitaliavotes.managers;
 
 import com.glyart.mcitaliavotes.MCItaliaVotesPlugin;
 import com.glyart.mcitaliavotes.objects.Reward;
-import com.glyart.mcitaliavotes.tasks.CheckerTask;
 import lombok.Getter;
 import org.bukkit.configuration.ConfigurationSection;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.UUID;
 import java.util.logging.Level;
+import java.util.stream.Collectors;
 
 public class VotesManager {
     
     private final MCItaliaVotesPlugin plugin = MCItaliaVotesPlugin.getInstance();
     
     private final List<Reward> rewards = new ArrayList<>();
+    @Getter private final List<UUID> players = Collections.synchronizedList(new ArrayList<>());
     
     @Getter private String serverName;
     @Getter private long lastUpdate;
@@ -28,7 +31,8 @@ public class VotesManager {
         monthlyVotes = plugin.getDataConfig().getConfig().getInt("votes.monthly");
         dailyVotes = plugin.getDataConfig().getConfig().getInt("votes.daily");
         
-        new CheckerTask().runTaskTimerAsynchronously(plugin, 0, 20*60*15);
+        if (plugin.getDataConfig().getConfig().contains("players"))
+            players.addAll(plugin.getDataConfig().getConfig().getStringList("players").stream().map(UUID::fromString).collect(Collectors.toList()));
         
         updateRewards();
     }
@@ -78,6 +82,14 @@ public class VotesManager {
         plugin.getDataConfig().getConfig().set("votes.daily", dailyVotes);
         plugin.getDataConfig().getConfig().set("votes.monthly", monthlyVotes);
         plugin.getDataConfig().getConfig().set("lastUpdate", lastUpdate);
+    
+        plugin.getDataConfig().getConfig().set("players", players.stream().map(UUID::toString).collect(Collectors.toList()));
+    
+        plugin.getDataConfig().save();
+    }
+    
+    public void savePlayers() {
+        plugin.getDataConfig().getConfig().set("players", players.stream().map(UUID::toString).collect(Collectors.toList()));
         plugin.getDataConfig().save();
     }
     
